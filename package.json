@@ -1,0 +1,51 @@
+{
+  "name": "@web-atoms/web-atoms",
+  "version": "1.0.0",
+  "description": "(Beta) Next generation Web Atoms with ESM edition",
+  "homepage": "https://github.com/web-atoms/web-atoms#readme",
+  "bugs": {
+    "url": "https://github.com/web-atoms/web-atoms/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/web-atoms/web-atoms.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "istanbul cover ./node_modules/@web-atoms/unit-test/index.js ./dist/tests",
+    "build-css": "npx postcss \"./src/**/*.css\" --base ./src --dir ./dist --map --verbose",
+    "build-css-watch": "npx postcss \"./src/**/*.css\" --base src --dir dist --map -w",
+    "build-css-jex": "npx jex ./build.jsx",
+    "build-css-watch-jex": "npx jex ./build.jsx --watch",
+    "posttest": "remap-istanbul -i ./coverage/coverage.json -t html -o ./html-report",
+    "postversion": "git push --follow-tags"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
+    "cssnano": "^7.0.6",
+    "eslint": "^8.42.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsdoc": "^46.2.6",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prefer-arrow": "^1.2.3",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "postcss": "^8.5.3",
+    "postcss-cli": "^11.0.1",
+    "postcss-import": "^16.1.0",
+    "postcss-import-ext-glob": "^2.1.1",
+    "postcss-nested": "^7.0.2",
+    "postcss-preset-env": "^10.1.5"
+  },
+  "dependencies": {
+    "reflect-metadata": "^0.2.2",
+    "tslib": "^2.8.1"
+  }
+}

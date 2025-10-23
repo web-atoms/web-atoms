@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "target": "es2020",
+        "module":"nodenext",
+        "incremental": true,
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+        "outDir": "dist",
+        "downlevelIteration": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "importHelpers": true,
+        "noUnusedLocals": true,
+        "moduleResolution": "nodenext",
+        "allowSyntheticDefaultImports": false,
+        "jsx": "react",
+        "jsxFactory": "XNode.create",
+        "lib": [
+            "es6",
+            "dom",
+            "ESNext.Disposable"
+        ]
+    },
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+		"node_modules",
+		"tests"
+    ],
+    "paths": {
+        "tslib" : ["./node_modules/tslib/tslib.d.ts"]
+    }
+}
