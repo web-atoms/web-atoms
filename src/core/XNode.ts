@@ -1,6 +1,5 @@
 import type { AtomControl } from "./AtomControl.js";
 import Bind, { bindSymbol } from "./Bind.js";
-import type { ColorItem } from "./Colors.js";
 import type { ObjectPositionType } from "./CSS.js";
 import { IClassOf, IDisposable } from "./types.js";
 
@@ -81,9 +80,9 @@ export interface IElementAttributes {
     "style-font-weight"?: string;
     "style-border"?: string;
     "style-border-width"?: string;
-    "style-border-color"?: string | ColorItem;
-    "style-color"?: string | ColorItem;
-    "style-background-color"?: string | ColorItem;
+    "style-border-color"?: string;
+    "style-color"?: string;
+    "style-background-color"?: string;
 
 
     /** Data Style Attributes */
