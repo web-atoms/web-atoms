@@ -15,12 +15,11 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "istanbul cover ./node_modules/@web-atoms/unit-test/index.js ./dist/tests",
+    "test": "c8 -r html node ./test.mjs .",
     "build-css": "npx postcss \"./src/**/*.css\" --base ./src --dir ./dist --map --verbose",
     "build-css-watch": "npx postcss \"./src/**/*.css\" --base src --dir dist --map -w",
     "build-css-jex": "npx jex ./build.jsx",
     "build-css-watch-jex": "npx jex ./build.jsx --watch",
-    "posttest": "remap-istanbul -i ./coverage/coverage.json -t html -o ./html-report",
     "postversion": "git push --follow-tags"
   },
   "devDependencies": {
@@ -37,6 +36,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-unused-imports": "^4.1.4",
+    "c8": "^10.1.3",
     "postcss": "^8.5.3",
     "postcss-cli": "^11.0.1",
     "postcss-import": "^16.1.0",

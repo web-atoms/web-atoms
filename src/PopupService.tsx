@@ -1,13 +1,13 @@
-import { App } from "../../App.js";
-import { AtomControl } from "../../core/AtomControl.js";
-import { AtomDisposableList } from "../../core/AtomDisposableList.js";
-import { getOwnInheritedProperty } from "../../core/InheritedProperty.js";
-import { CancelToken } from "../../core/types.js";
-import XNode from "../../core/XNode.js";
 
+import { App } from "./App.js";
 import "./PopupService.global.css";
+import { AtomControl } from "./core/AtomControl.js";
+import { AtomDisposableList } from "./core/AtomDisposableList.js";
+import { getOwnInheritedProperty } from "./core/InheritedProperty.js";
+import XNode from "./core/XNode.js";
+import { CancelToken } from "./core/types.js";
 
-import PopupWindowA, { ConfirmPopup } from "./PopupWindow.js";
+import PopupWindowA, { ConfirmPopup } from "./popup/PopupWindow.js";
 
 
 export const PopupWindow = PopupWindowA;
@@ -130,37 +130,37 @@ export class PopupControl extends AtomControl {
 
 }
 
-function findHostAndPosition(opener: HTMLElement) {
-    let root = opener;
-    const body = document.body;
-    let rect = opener.getBoundingClientRect();
-    const offset = {
-        x: rect.left,
-        y: rect.top,
-        handler: null,
-        root
-    };
-    do {
-        root = root.parentElement;
-        if (root === body) {
-            break;
-        }
-        if (root.parentElement.classList.contains("page-host")) {
-            break;
-        }
-        if (root.classList.contains("popup-host")) {
-            break;
-        }
-        if (root.getAttribute("data-pop-up-host") === "yes") {
-            break;
-        }
-    } while (true);
-    rect = root.getBoundingClientRect();
-    offset.x -= rect.x;
-    offset.y -= rect.y;
-    offset.root = root;
-    return offset;
-}
+// function findHostAndPosition(opener: HTMLElement) {
+//     let root = opener;
+//     const body = document.body;
+//     let rect = opener.getBoundingClientRect();
+//     const offset = {
+//         x: rect.left,
+//         y: rect.top,
+//         handler: null,
+//         root
+//     };
+//     do {
+//         root = root.parentElement;
+//         if (root === body) {
+//             break;
+//         }
+//         if (root.parentElement.classList.contains("page-host")) {
+//             break;
+//         }
+//         if (root.classList.contains("popup-host")) {
+//             break;
+//         }
+//         if (root.getAttribute("data-pop-up-host") === "yes") {
+//             break;
+//         }
+//     } while (true);
+//     rect = root.getBoundingClientRect();
+//     offset.x -= rect.x;
+//     offset.y -= rect.y;
+//     offset.root = root;
+//     return offset;
+// }
 
 function findHost(opener: HTMLElement, offset?: {x: number, y: number}): HTMLElement {
 
