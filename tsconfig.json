@@ -19,7 +19,8 @@
         "lib": [
             "es6",
             "dom",
-            "ESNext.Disposable"
+            "ESNext.Disposable",
+            "ES2017.Object"
         ]
     },
     "include": [

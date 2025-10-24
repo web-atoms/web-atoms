@@ -1,7 +1,7 @@
-import type { ObjectPositionType } from "../style/StyleRule.js";
 import type { AtomControl } from "./AtomControl.js";
 import Bind, { bindSymbol } from "./Bind.js";
 import type { ColorItem } from "./Colors.js";
+import type { ObjectPositionType } from "./CSS.js";
 import { IClassOf, IDisposable } from "./types.js";
 
 export interface IAttributes {

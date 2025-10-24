@@ -1,5 +1,5 @@
 import { IScreen } from "./core/IScreen.js";
-import { CancelToken, IDisposable } from "./core/types.js";
+import { CancelToken } from "./core/types.js";
 import { BusyIndicatorService, IBackgroundTaskInfo } from "./services/BusyIndicatorService.js";
 
 import "./core/AtomList";
@@ -10,30 +10,6 @@ import { ServiceProvider } from "./di/di.js";
 
 
 declare var UMD: any;
-
-export type AtomAction = (channel: string, data: any) => void;
-
-class AtomHandler {
-
-    public message: string;
-    public list: AtomAction[];
-
-    constructor(message: string) {
-        this.message = message;
-        this.list = new Array<AtomAction>();
-    }
-
-}
-
-export class AtomMessageAction {
-    public message: string;
-    public action: AtomAction;
-
-    constructor(msg: string, a: AtomAction) {
-        this.message = msg;
-        this.action = a;
-    }
-}
 
 export interface IAuthorize {
     authorize: string[] | boolean;
@@ -126,33 +102,16 @@ export class App extends ServiceProvider {
      */
     public appReady: boolean = false;
 
-    private bag: any;
-
     private busyIndicatorService: BusyIndicatorService;
     // tslint:disable-next-line:ban-types
     private readyHandlers: Array<() => any> = [];
 
     private dispatcher: AtomDispatcher;
 
-    // private mUrl: AtomUri;
-    // public get url(): AtomUri {
-    //     return this.mUrl;
-    // }
-
-    // public set url(v: AtomUri) {
-    //     this.mUrl = v;
-    //     AtomBinder.refreshValue(this, "url");
-    // }
-
-    public get contextId(): string {
-        return "none";
-    }
-
     constructor() {
         super(null);
         App.current = this;
         this.screen = {};
-        this.bag = {};
         this.add(App, this);
         this.dispatcher = new AtomDispatcher();
         this.dispatcher.start();
@@ -184,10 +143,6 @@ export class App extends ServiceProvider {
 
     public installScript(location: string) {
         return App.installScript(location);
-    }
-
-    public updateDefaultStyle(content: string) {
-        throw new Error("Platform does not support StyleSheets");
     }
 
     public waitForPendingCalls(): Promise<any> {
@@ -250,54 +205,6 @@ export class App extends ServiceProvider {
     public onError: (m: any) => void = (error) => {
         // tslint:disable-next-line:no-console
         console.log(error);
-    }
-
-    /**
-     * Broadcast given data to channel, only within the current window.
-     *
-     * @param {string} channel
-     * @param {*} data
-     * @returns
-     * @memberof AtomDevice
-     */
-    public broadcast(channel: string, data: any): void {
-        const ary: AtomHandler = this.bag[channel] as AtomHandler;
-        if (!ary) {
-            return;
-        }
-        for (const entry of ary.list) {
-            entry.call(this, channel, data);
-        }
-    }
-
-    /**
-     * Subscribe for given channel with action that will be
-     * executed when anyone will broadcast (this only works within the
-     * current browser window)
-     *
-     * This method returns a disposable, when you call `.dispose()` it will
-     * unsubscribe for current subscription
-     *
-     * @param {string} channel
-     * @param {AtomAction} action
-     * @returns {AtomDisposable} Disposable that supports removal of subscription
-     * @memberof AtomDevice
-     */
-    public subscribe(channel: string, action: AtomAction): IDisposable {
-        let ary: AtomHandler = this.bag[channel] as AtomHandler;
-        if (!ary) {
-            ary = new AtomHandler(channel);
-            this.bag[channel] = ary;
-        }
-        ary.list.push(action);
-        return {
-            dispose: () => {
-                ary.list = ary.list.filter((a) => a !== action);
-                if (!ary.list.length) {
-                    this.bag[channel] = null;
-                }
-            }
-        };
     }
 
     public main(): void {

@@ -1,7 +1,6 @@
-import XNode, { elementFactorySymbol } from "../../core/XNode.js";
-import { AtomStyleRules } from "../../style/StyleRule.js";
-import { ElementValueSetters } from "../controls/AtomControl.js";
-import { AtomUI, descendentElementIterator } from "./AtomUI.js";
+import XNode from "./XNode.js";
+import { ElementValueSetters } from "../core/AtomControl.js";
+import { descendentElementIterator } from "./AtomUI.js";
 import Encoder from "./Encoder.js";
 export const encoder = Encoder("entity");
 
@@ -64,11 +63,9 @@ export function convertToText(node: XNode) {
                     continue;
                 }
                 if (key === "style" && typeof element === "object") {
-                    if (element instanceof AtomStyleRules) {
-                        attrs += ` ${key}="${encoder.htmlEncode(element.toStyleSheet(), false)}"`;
-                        continue;
+                    for(const [styleKey, styleValue] of Object.entries(element)) {
+                        attrs += ` ${styleKey}="${encoder.htmlEncode(styleValue, false)}"`;
                     }
-                    attrs += ` ${key}="${encoder.htmlEncode(new AtomStyleRules(element).toStyleSheet(), false)}"`;
                     continue;
                 }
                 attrs += ` ${key}="${encoder.htmlEncode(element, false)}"`;

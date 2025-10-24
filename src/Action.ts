@@ -1,14 +1,13 @@
-import { App } from "../App.js";
-import Command from "../core/Command.js";
-import EventScope from "../core/EventScope.js";
-import FormattedString from "../core/FormattedString.js";
-import { StringHelper } from "../core/StringHelper.js";
-import { CancelToken, errorHandled } from "../core/types.js";
-import XNode from "../core/XNode.js";
-import JsonError from "../services/http/JsonError.js";
-import { NavigationService, NotifyType } from "../services/NavigationService.js";
-import type { AtomControl } from "../core/AtomControl.js";
-import PopupService from "../web/services/PopupService.js";
+import { App } from "./App.js";
+import Command from "./core/Command.js";
+import EventScope from "./core/EventScope.js";
+import FormattedString from "./core/FormattedString.js";
+import { StringHelper } from "./core/StringHelper.js";
+import { CancelToken, errorHandled } from "./core/types.js";
+import XNode from "./core/XNode.js";
+import JsonError from "./services/http/JsonError.js";
+import type { AtomControl } from "./core/AtomControl.js";
+import PopupService from "./PopupService.js";
 
 export type onEventSetBusyTypes = "target" | "current-target" | "till-current-target" | "ancestors" | "button";
 
@@ -85,7 +84,7 @@ export interface IActionOptions {
      * Validate the view model before execution and report to user
      * @default false
      */
-    validate?: boolean | string | FormattedString;
+    validate?: boolean | string | XNode;
 
     /**
      * Title for validation
@@ -335,8 +334,6 @@ export default function Action(
                         }
                     }
 
-                    const app = vm.app as App;
-                    const ns = app.resolve(NavigationService) as NavigationService;
                     try {
 
                         if (authorize && !App.authorize()) {
@@ -348,13 +345,13 @@ export default function Action(
                                 const vMsg = typeof validate === "boolean"
                                     ? "Please enter correct information"
                                     : validate;
-                                await ns.alert(vMsg, validateTitle || "Error");
+                                await PopupService.alert({ message: vMsg, title: validateTitle || "Error" });
                                 return;
                             }
                         }
 
                         if (confirm) {
-                            if (! await ns.confirm(confirm as any, confirmTitle || "Confirm")) {
+                            if (! await PopupService.confirm({ message: confirm as any, title: confirmTitle || "Confirm"})) {
                                 return;
                             }
                         }
@@ -365,9 +362,9 @@ export default function Action(
                         }
                         if (success) {
                             if (successMode === "notify") {
-                                await ns.notify(success as any, successTitle, NotifyType.Information, notifyDelay);
+                                await PopupService.alert({ message: success as any, title: successTitle, closeInSeconds: notifyDelay });
                             } else {
-                                await ns.alert(success as any, successTitle);
+                                await PopupService.alert({ message: success as any, title: successTitle });
                             }
                         }
                         if (close) {
@@ -401,7 +398,7 @@ export default function Action(
                                 throw e;
                             }
                         }
-                        await ns.alert(e, "Error");
+                        await PopupService.alert({ message: e, title: "Error" });
                         throw e;
                     }
                 };

@@ -1,9 +1,9 @@
 import { App } from "../../App.js";
+import { AtomControl } from "../../core/AtomControl.js";
 import { AtomDisposableList } from "../../core/AtomDisposableList.js";
 import { getOwnInheritedProperty } from "../../core/InheritedProperty.js";
 import { CancelToken } from "../../core/types.js";
 import XNode from "../../core/XNode.js";
-import { AtomControl } from "../controls/AtomControl.js";
 
 import "./PopupService.global.css";
 
@@ -287,6 +287,7 @@ export interface IPopupAlertOptions {
     yesLabel?: string;
     noLabel?: string;
     cancelLabel?: string;
+    closeInSeconds?: number;
 }
 export default class PopupService {
 
@@ -357,7 +358,8 @@ export default class PopupService {
         message,
         detail,
         title = "Alert",
-        yesLabel = "Ok"
+        yesLabel = "Ok",
+        closeInSeconds
     }: IPopupAlertOptions): Promise<boolean> {
         try {
             const isMsgXNode = message instanceof XNode;
@@ -378,12 +380,17 @@ export default class PopupService {
                     </div>);
                 }
             };
+            let cancelToken;
+            if (closeInSeconds) {
+                cancelToken = new CancelToken(closeInSeconds);
+            }
             return await popup.showModal<boolean>({
                 parameters: {
                     message,
                     detail,
                     yesLabel,
-                    noLabel: ""
+                    noLabel: "",
+                    cancelToken
                 },
                 title
             });

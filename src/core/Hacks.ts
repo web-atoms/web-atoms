@@ -1,5 +1,5 @@
 import type { AtomControl } from "./AtomControl.js";
-import { ChildEnumerator } from "../web/core/AtomUI.js";
+import { ChildEnumerator } from "./AtomUI.js";
 import { AtomBinder } from "./AtomBinder.js";
 import { IDisposable } from "./types.js";
 
