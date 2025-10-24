@@ -2,14 +2,10 @@ import { IScreen } from "./core/IScreen.js";
 import { CancelToken } from "./core/types.js";
 import { BusyIndicatorService, IBackgroundTaskInfo } from "./services/BusyIndicatorService.js";
 
-import "./core/AtomList";
-import "@web-atoms/date-time/dist/DateTime";
-import "@web-atoms/date-time/dist/TimeSpan";
+import "./core/AtomList.js";
 import { AtomDispatcher } from "./core/AtomDispatcher.js";
 import { ServiceProvider } from "./di/di.js";
 
-
-declare var UMD: any;
 
 export interface IAuthorize {
     authorize: string[] | boolean;
@@ -25,7 +21,7 @@ export class App extends ServiceProvider {
             ssConfig = { href: ssConfig };
         }
 
-        ssConfig.href = UMD.resolvePath(ssConfig.href);
+        ssConfig.href = import.meta.resolve(ssConfig.href);
         const links = document.getElementsByTagName("link");
         // tslint:disable-next-line:prefer-for-of
         for (let index = 0; index < links.length; index++) {
@@ -48,7 +44,7 @@ export class App extends ServiceProvider {
     }
 
     public static installScript(location: string) {
-        location = UMD.resolvePath(location);
+        location = import.meta.resolve(location);
         const links = document.getElementsByTagName("script");
         // tslint:disable-next-line:prefer-for-of
         for (let index = 0; index < links.length; index++) {

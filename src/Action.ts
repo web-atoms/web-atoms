@@ -81,18 +81,6 @@ export interface IActionOptions {
     confirmTitle?: string;
 
     /**
-     * Validate the view model before execution and report to user
-     * @default false
-     */
-    validate?: boolean | string | XNode;
-
-    /**
-     * Title for validation
-     * @default Error
-     */
-    validateTitle?: string;
-
-    /**
      * dispatch event after successful execution.
      */
     dispatchEvent?: string | EventScope;
@@ -237,8 +225,6 @@ export default function Action(
         successMode = "notify",
         confirm = null,
         confirmTitle = null,
-        validate = false,
-        validateTitle = null,
         close = false,
         notifyDelay = 2000,
     }: IActionOptions = {}) {
@@ -338,16 +324,6 @@ export default function Action(
 
                         if (authorize && !App.authorize()) {
                             return;
-                        }
-
-                        if (validate) {
-                            if (!vm.isValid) {
-                                const vMsg = typeof validate === "boolean"
-                                    ? "Please enter correct information"
-                                    : validate;
-                                await PopupService.alert({ message: vMsg, title: validateTitle || "Error" });
-                                return;
-                            }
                         }
 
                         if (confirm) {

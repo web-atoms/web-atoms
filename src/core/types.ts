@@ -222,21 +222,3 @@ Object.defineProperties(Array.prototype, {
         configurable: true
     }
 })
-
-
-export interface IUMDClass {
-    debug: boolean;
-    resolveViewClassAsync(path: string): Promise<any>;
-    mockType(type: any, name: string): void;
-    inject(type: any, name: string): void;
-    resolveType(type: any): any;
-    resolvePath(path: string): string;
-    import<T>(path: string): Promise<T>;
-}
-
-declare var global: any;
-
-const globalNS = (typeof window !== "undefined" ? window : (global as any)) as any;
-
-export const DI = (globalNS).UMD as IUMDClass;
-export const UMD = (globalNS).UMD as IUMDClass;

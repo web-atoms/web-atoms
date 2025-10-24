@@ -49,7 +49,7 @@ export class StringHelper {
     }
 
     public static fromUnderscoreToCamel(input: string): string {
-        return input.replace(/\_([a-z])/g, (g) => g[1].toUpperCase());
+        return input.replace(/\_([a-zA-Z])/g, (g) => g[1].toUpperCase());
     }
 
     public static fromPascalToCamel(input: string): string {

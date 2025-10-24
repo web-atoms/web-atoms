@@ -10,6 +10,13 @@ class TestRunner {
      * @param {string} name
      */
     static async runTest(name, thisParam) {
+
+        const { JSDOM } = await import("jsdom")
+        const { window } = new JSDOM();
+
+        global.window = window;
+        global.document = window.document;
+
         const moduleExports = await import(name);
         const { default: d } = moduleExports;
         if (typeof d !== "function") {
@@ -20,6 +27,7 @@ class TestRunner {
         }
         try {
 
+            
             const r = d.call(thisParam);
             if (r?.then) {
                 await r;

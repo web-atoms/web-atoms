@@ -48,8 +48,6 @@ export class PageCommands {
     public static openPage: (page, parameters) => any;
 }
 
-declare let UMD: any;
-
 export type IPage<TIn, TOut> = {
     default: abstract new (... a: any[]) => {
         parameters: TIn;

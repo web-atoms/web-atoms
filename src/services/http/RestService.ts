@@ -8,8 +8,6 @@ import { IJsonParserOptions, JsonService } from "../JsonService.js";
 import JsonError from "./JsonError.js";
 import Inject from "../../di/di.js";
 
-declare var UMD: any;
-
 export interface IHttpHeaders {
     [key: string]: string;
 }
@@ -466,7 +464,7 @@ export class BaseService {
         }) ) : null;
 
 
-        url = UMD.resolvePath(url);
+        url = import.meta.resolve(url);
 
         let options: AjaxOptions = new AjaxOptions();
         options.method = method;
