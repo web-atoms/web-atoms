@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "target": "es2020",
-        "module":"nodenext",
+        "module":"es2020",
         "incremental": true,
         "sourceMap": true,
         "declaration": true,
@@ -12,7 +12,7 @@
         "emitDecoratorMetadata": true,
         "importHelpers": true,
         "noUnusedLocals": true,
-        "moduleResolution": "nodenext",
+        "moduleResolution": "node",
         "allowSyntheticDefaultImports": false,
         "jsx": "react",
         "jsxFactory": "XNode.create",
@@ -30,6 +30,7 @@
 		"node_modules",
 		"tests"
     ],
+    "baseUrl": "./",
     "paths": {
         "tslib" : ["./node_modules/tslib/tslib.d.ts"]
     }
