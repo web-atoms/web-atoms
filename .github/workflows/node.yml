@@ -17,7 +17,7 @@ jobs:
       - run: npm install
       - run: npm install -g codecov
       - run: tsc
-      - run: npm run test
+      - run: c8 --reporter=lcov npm test
       - run: codecov
         env:
           CODECOV_TOKEN: ${{secrets.codecov_token}}
