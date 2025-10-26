@@ -16,7 +16,6 @@ jobs:
           registry-url: https://registry.npmjs.org/        
       - run: npm install
       - run: npm install -g codecov
-      - run: npm install -D istanbul remap-istanbul @web-atoms/ts-to-systemjs
       - run: tsc
       - run: npm run test
       - run: codecov
