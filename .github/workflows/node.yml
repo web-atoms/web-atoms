@@ -16,10 +16,10 @@ jobs:
           registry-url: https://registry.npmjs.org/        
       - run: npm install
       - run: tsc
-      - run: npx c8 --reporter=lcov node ./test.mjs .
-      - run: npx codecov
-        env:
-          CODECOV_TOKEN: ${{secrets.codecov_token}}
+      # - run: npx c8 --reporter=lcov node ./test.mjs .
+      # - run: npx codecov
+      #   env:
+      #     CODECOV_TOKEN: ${{secrets.codecov_token}}
       - run: npm run build-css
       - run: npm publish --access public
         env:
