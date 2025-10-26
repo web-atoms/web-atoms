@@ -268,12 +268,19 @@ class UMDHelper {
     lang = "en-US";
     app = void 0 as App;
 
-    setupRoot() {
-        // do nothing
+    setupRoot(scope, path) {
+        const script = document.createElement("script");
+        script.type = "importmap";
+        script.textContent = JSON.stringify({  [`${scope}/`]: "/" });
+        document.body.appendChild(script);
     }
 
-    map() {
+    map(scope, path) {
         // do nothing
+        const script = document.createElement("script");
+        script.type = "importmap";
+        script.textContent = JSON.stringify({  [`${scope}/`]: "/" });
+        document.body.appendChild(script);
     }
 
     loadView(path, debug = false) {

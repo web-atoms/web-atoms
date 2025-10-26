@@ -19,6 +19,7 @@
         "downlevel",
         "grayscale",
         "ILVM",
+        "importmap",
         "IUMD",
         "Kava",
         "keyframename",
