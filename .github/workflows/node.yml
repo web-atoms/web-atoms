@@ -1,0 +1,29 @@
+name: Build
+
+on: 
+  push: 
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/        
+      - run: npm install
+      - run: npm install -g codecov
+      - run: npm install -D istanbul remap-istanbul @web-atoms/ts-to-systemjs
+      - run: tsc
+      - run: npm run test
+      - run: codecov
+        env:
+          CODECOV_TOKEN: ${{secrets.codecov_token}}
+      - run: node ./node_modules/@web-atoms/ts-to-systemjs/index.js
+      - run: npm run build-css
+      - run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
