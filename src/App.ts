@@ -112,9 +112,6 @@ export class App extends ServiceProvider {
         this.dispatcher = new AtomDispatcher();
         this.dispatcher.start();
         this.add(AtomDispatcher, this.dispatcher);
-        setTimeout(() => {
-            this.invokeReady();
-        }, 5);
     }
 
     public createBusyIndicator(taskInfo?: IBackgroundTaskInfo ): Disposable {
@@ -248,3 +245,42 @@ export class App extends ServiceProvider {
     }
 
 }
+
+export interface IUMDClass {
+    debug: boolean;
+    resolveViewClassAsync(path: string): Promise<any>;
+    mockType(type: any, name: string): void;
+    inject(type: any, name: string): void;
+    resolveType(type: any): any;
+    resolvePath(path: string): string;
+    import<T>(path: string): Promise<T>;
+}
+
+declare var global: any;
+
+const globalNS = (typeof window !== "undefined" ? window : (global as any)) as any;
+
+class UMDHelper {
+
+    lang = "en-US";
+    app = void 0 as App;
+
+    setupRoot() {
+        // do nothing
+    }
+
+    map() {
+        // do nothing
+    }
+
+    loadView(path, debug = false) {
+        import(path).then(({ default: viewClass})=> {
+            this.app ??= new App();
+            const view = new viewClass(this.app, void 0);
+            document.body.appendChild(view.element);
+        }, console.error);
+    }
+}
+
+export const UMD = new UMDHelper();
+(globalNS).UMD = UMD;
