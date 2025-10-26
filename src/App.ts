@@ -5,6 +5,7 @@ import { BusyIndicatorService, IBackgroundTaskInfo } from "./services/BusyIndica
 import "./core/AtomList.js";
 import { AtomDispatcher } from "./core/AtomDispatcher.js";
 import { ServiceProvider } from "./di/di.js";
+import { AtomControl } from "./core/AtomControl.js";
 
 
 export interface IAuthorize {
@@ -13,6 +14,8 @@ export interface IAuthorize {
 }
 
 export class App extends ServiceProvider {
+
+    root: AtomControl;
 
     public static installStyleSheet(ssConfig: string |
         { href: string, integrity?: string, crossOrigin?: string}): void {
@@ -278,6 +281,17 @@ class UMDHelper {
             this.app ??= new App();
             const view = new viewClass(this.app, void 0);
             document.body.appendChild(view.element);
+            this.app.root = view;
+        }, console.error);
+    }
+
+    hostView(id, path, debug = false) {
+        import(path).then(({ default: viewClass})=> {
+            this.app ??= new App();
+            const view = new viewClass(this.app, void 0);
+            const host = document.getElementById(id);
+            host.appendChild(view.element);
+            this.app.root = view;
         }, console.error);
     }
 }
